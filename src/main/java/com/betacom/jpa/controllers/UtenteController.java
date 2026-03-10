@@ -12,49 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.jpa.dto.inputs.SocioReq;
+import com.betacom.jpa.dto.inputs.UtenteReq;
 import com.betacom.jpa.response.Resp;
 import com.betacom.jpa.services.interfaces.IMessagioServices;
-import com.betacom.jpa.services.interfaces.ISocioServices;
+import com.betacom.jpa.services.interfaces.IUtenteServices;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/socio")
-public class SocioController {
+@RequestMapping("/rest/utente")
+public class UtenteController {
 	
-	private final ISocioServices socioS;
+	private final IUtenteServices utS;
 	private final IMessagioServices msgS;
 	
 	@GetMapping("/list")
-	public ResponseEntity<Object> list(
-			@RequestParam (required = false)  Integer id,
-			@RequestParam (required = false)  String nome,
-			@RequestParam (required = false)  String cognome,
-			@RequestParam (required = false)  Integer attivita
-			){
+	public ResponseEntity<Object> list(){
 		Object r = new Object();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			r= socioS.find(id, nome, cognome, attivita);
-			log.debug("response ok");
-		} catch (Exception e) {
-			log.debug("error:" + e.getMessage());
-			r=e.getMessage();
-			status = HttpStatus.BAD_REQUEST;
-		}
-		return ResponseEntity.status(status).body(r);
-		
-	}
-	@GetMapping("/findByAttivita")
-	public ResponseEntity<Object> findByAttivita (@RequestParam (required = true)  String attivita){
-		Object r = new Object();
-		HttpStatus status = HttpStatus.OK;
-		try {
-			r= socioS.findByAttivita(attivita);
+			r= utS.list();
 		} catch (Exception e) {
 			r=e.getMessage();
 			status = HttpStatus.BAD_REQUEST;
@@ -62,13 +40,13 @@ public class SocioController {
 		return ResponseEntity.status(status).body(r);
 		
 	}
-
-	@GetMapping("/findById")
-	public ResponseEntity<Object> findById (@RequestParam (required = true)  Integer id){
+	
+	@GetMapping("/findByUsername")
+	public ResponseEntity<Object> findById (@RequestParam (required = true)  String userName){
 		Object r = new Object();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			r= socioS.findById(id);
+			r= utS.findByUsername(userName);
 		} catch (Exception e) {
 			r=e.getMessage();
 			status = HttpStatus.BAD_REQUEST; 
@@ -76,13 +54,13 @@ public class SocioController {
 		return ResponseEntity.status(status).body(r);
 		
 	}
-
+	
 	@PostMapping("/create")
-	public ResponseEntity<Resp> create(@RequestBody(required = true)  SocioReq req){
+	public ResponseEntity<Resp> create(@RequestBody(required = true)  UtenteReq req){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			socioS.create(req);
+			utS.create(req);
 			r.setMsg(msgS.get("rest_created"));
 		} catch (Exception e) {
 			r.setMsg(e.getMessage());
@@ -92,26 +70,25 @@ public class SocioController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<Resp> update(@RequestBody(required = true)  SocioReq req){
+	public ResponseEntity<Resp> update(@RequestBody(required = true)  UtenteReq req){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			socioS.update(req);
+			utS.update(req);
 			r.setMsg(msgS.get("rest_updated"));
 		} catch (Exception e) {
-			log.debug("Error:" + e.getMessage());
 			r.setMsg(e.getMessage());
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return ResponseEntity.status(status).body(r);		
 	}
-
+	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Resp> delete(@PathVariable(required = true)  Integer id){
+	public ResponseEntity<Resp> delete(@PathVariable(required = true)  String userName){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			socioS.delete(id);
+			utS.delete(userName);
 			r.setMsg(msgS.get("rest_deleted"));
 		} catch (Exception e) {
 			r.setMsg(e.getMessage());
@@ -119,6 +96,4 @@ public class SocioController {
 		}
 		return ResponseEntity.status(status).body(r);		
 	}
-
-	
 }
