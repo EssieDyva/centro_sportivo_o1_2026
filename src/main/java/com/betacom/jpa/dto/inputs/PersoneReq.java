@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
-public class UtenteReq {
-
-	private String userName;
-	private String pwd;
+public class PersoneReq {
+	private Integer id;
+	private String nome;
+	private String cognome;
 	private String email;
-	private String role;
+	private String colore;
 }

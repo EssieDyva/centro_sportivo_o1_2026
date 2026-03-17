@@ -14,7 +14,6 @@ import com.betacom.jpa.repositories.ISocioRepository;
 import com.betacom.jpa.services.interfaces.ICertificatoServices;
 import com.betacom.jpa.services.interfaces.IMessagioServices;
 
-import static com.betacom.jpa.utilities.Utils.stringToDate;
 import static com.betacom.jpa.utilities.Mapper.buildSocioDTO;
 
 import java.util.List;
