@@ -2,7 +2,9 @@ package com.betacom.jpa.services.interfaces;
 
 import java.util.List;
 
+import com.betacom.jpa.dto.inputs.LoginReq;
 import com.betacom.jpa.dto.inputs.UtenteReq;
+import com.betacom.jpa.dto.outputs.LoginDTO;
 import com.betacom.jpa.dto.outputs.UtenteDTO;
 
 public interface IUtenteServices {
@@ -13,4 +15,6 @@ public interface IUtenteServices {
 	
 	List<UtenteDTO> list();
 	UtenteDTO findByUsername(String userName) throws Exception;
+
+	LoginDTO login(LoginReq req) throws Exception;
 }

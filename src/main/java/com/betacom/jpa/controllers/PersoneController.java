@@ -21,7 +21,7 @@ import com.betacom.jpa.services.interfaces.IPersoneServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin("* ")
+@CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

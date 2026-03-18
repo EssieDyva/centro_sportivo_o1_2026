@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.jpa.dto.inputs.LoginReq;
 import com.betacom.jpa.dto.inputs.UtenteReq;
+import com.betacom.jpa.dto.outputs.LoginDTO;
 import com.betacom.jpa.dto.outputs.UtenteDTO;
 import com.betacom.jpa.enums.Role;
 import com.betacom.jpa.exceptions.AcademyException;
@@ -93,6 +95,22 @@ public class UtenteImpl implements IUtenteServices {
 						.email(u.getEmail())
 						.role(u.getRole().toString())
 						.build();
+	}
+
+	@Override
+	public LoginDTO login(LoginReq req) throws Exception {
+		log.debug("delete {}", req);
+		Utente ut = utR.findById(req.getUserName())
+				.orElseThrow(() -> new AcademyException("login invalido"));
+
+		if(!ut.getPwd().equals(req.getPwd()))
+			throw new AcademyException("login invalido");
+
+		return LoginDTO.builder()
+			.id(ut.getUserName())
+			.role(ut.getRole().toString())
+			.build();
+		
 	}
 
 }

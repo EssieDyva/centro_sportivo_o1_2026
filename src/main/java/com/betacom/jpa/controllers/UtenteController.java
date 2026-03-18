@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.jpa.dto.inputs.LoginReq;
 import com.betacom.jpa.dto.inputs.UtenteReq;
 import com.betacom.jpa.response.Resp;
 import com.betacom.jpa.services.interfaces.IMessagioServices;
@@ -95,5 +96,18 @@ public class UtenteController {
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return ResponseEntity.status(status).body(r);		
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<Object> login(@RequestBody(required = true)  LoginReq req) {
+		Object r = new Object();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r= utS.login(req);
+		} catch (Exception e) {
+			r=e.getMessage();
+			status = HttpStatus.BAD_REQUEST; 
+		}
+		return ResponseEntity.status(status).body(r);
 	}
 }
