@@ -11,8 +11,8 @@ public class SecurityConfig {
     @Bean
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-
-            public void addCorsMapping(CorsRegistry registry) {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
